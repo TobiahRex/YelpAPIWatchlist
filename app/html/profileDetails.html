@@ -1,0 +1,8 @@
+<div class="profile-fieldset row animated fadeIn">
+  <img ng-src='{{profile.Avatar}}' class='col-xs-6 profile-picture' alt=''/>
+  <blockquote class="col-xs-6">
+    <span class="label">Bio</span><br><p class="lead text-primary">{{profile.Bio}}</p>
+    <span class="label">Email</span><br><p class="lead text-primary">{{profile.Email}}</p>
+    <span class="label">Last Login:</span><br><p class="lead text-primary">{{profile.LastLogin | date}}</p>
+  </blockquote>
+</div>
