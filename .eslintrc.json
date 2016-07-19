@@ -3,7 +3,8 @@
 	"rules": {
 		"no-underscore-dangle": ["error", { "allow": ["_id"] }],
 		"no-param-reassign": ["error", { "props": false }],
-		"no-use-before-define": ["error", { "functions": false }]
+		"no-use-before-define": ["error", { "functions": false }],
+		"no-use-before-define": ["error", { "classes": false }]
 	},
 	"globals": {
 		"$": false,

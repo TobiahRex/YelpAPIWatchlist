@@ -99,7 +99,7 @@ userSchema.statics.register = function(newUserObj, cb){
       if(err) return cb(err);
 
       Mail.verify(savedUser, response => {
-        if(response.statusCode !== 202) return cb(err);
+        if (response.statusCode !== 202) return cb(err);
         savedUser._Password = null;
         cb(err, savedUser);
       });
