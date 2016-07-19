@@ -5,7 +5,7 @@ function yelpService($http) {
 
   this.getBusinessDetails = (yelpId) => $http.get(`/api/yelp/favorite/business/${yelpId}`);
 
-  this.removeFavorite = (favObj, userId) => $http.put(`/api/yelp/favorite/${userId}`, favObj);
+  this.removeFavorite = (favObj, userId) => $http.post(`/api/yelp/favorite/${favObj._id}/remove/${userId}`);
 }
 
 angular.module('fullStackTemplate').service('Yelp', yelpService);
