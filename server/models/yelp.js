@@ -45,6 +45,32 @@ yelpSchema.statics.getBusinessDetails = (yelpId, cb) => {
   });
 };
 
+yelpSchema.statics.updateFavorites = (favorite, UserId, cb) => {
+  console.log('favorite._id: ', favorite._id);
+  Yelp.findById(favorite._id, (err1, dbYelp) => {
+    User.findById(UserId, (err2, dbUser) => {
+      if (err1 || err2) return cb(err1 || err2);
+      dbUser.Favorites.forEach(favorite => {
+        console.log(dbYelp._id === favorite);
+        if (dbYelp._id === favorite) {
+          console.log('Before Splice: ', dbUser.Favorites);
+          dbUser.Favorites.splice(dbUser.Favorites.indexOf(favorite));
+          dbYelp.fans.splice(dbYelp.fans.indexOf(dbUser._id));
+          console.log('After Splice: ', dbUser.Favorites);
+          dbUser.save((err3, savedUser) => {
+            dbYelp.save((err4, savedYelp) => {
+              if (err3 || err4) return cb(err3 || err4);
+              return cb(null, savedUser);
+            })
+          });
+        } else {
+          return cb({ Error: 'Did not find a database match.' });
+        }
+      });
+    });
+  });
+};
+
 yelpSchema.statics.addFavorite = (reqObj, userId, cb) => {
   if (!reqObj.term || !reqObj.location || !userId) {
     return cb({ Error: 'Required inputs are not present.' });

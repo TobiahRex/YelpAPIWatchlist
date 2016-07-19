@@ -24,7 +24,7 @@
         <td class='text-center text-primary'><p>{{favorite.term}}</p></td>
         <td class='text-center text-primary'><p><a class='text-success' id='favorite-business' ng-click='businessDetails(favorite.yelpId)'>Details</a></p></td>
         <td class='text-center'>
-          <button ng-click='deleteThing({favorite})' class="btn btn-danger btn-xs"> <i class="fa fa-trash"></i> <small>Delete</small></button>
+          <button ng-click='removeFavorite({favorite})' class="btn btn-danger btn-xs"> <i class="fa fa-trash"></i> <small>Delete</small></button>
         </td>
       </tr>
     </tbody>
