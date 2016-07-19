@@ -8,7 +8,9 @@
 	"globals": {
 		"$": false,
 		"dbUser._id": true,
-		"angular": true
+		"angular": true,
+		"Yelp": true,
+		"User": true
 	},
 	"env": {
 		"browser": true,

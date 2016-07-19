@@ -34,7 +34,7 @@ yelpSchema.statics.favorite = (reqObj, userId, cb) => {
   if (!reqObj.term || !reqObj.location || !userId) {
     return cb({ Error: 'Required inputs are not present.' });
   }
-  Yelp.find(reqObj.id, (err1, dbYelp) => {
+  return Yelp.find(reqObj.id, (err1, dbYelp) => {
     User.find(userId, (err2, dbUser) => {
       if (err1 || err2) return cb(err1 || err2);
       if (dbYelp) {
@@ -52,11 +52,21 @@ yelpSchema.statics.favorite = (reqObj, userId, cb) => {
           term: reqObj.term,
           location: reqObj.location,
         });
-        Yelp.create(newYelp, (err, ))
+        Yelp.create(newYelp, (err, savedYelp) => {
+          if (err) return cb(err);
+          savedYelp.fans.push(dbUser._id);
+          dbUser.Favorites.push(savedYelp._id);
+          savedYelp.save((err5, savedYelp2) => {
+            dbUser.save((err6, savedUser) => {
+              if (err5 || err6) return cb(err5 || err6);
+              return cb(null, { savedYelp2, savedUser });
+            });
+          });
+        });
       }
     });
   });
-}
+};
 
 const Yelp = mongoose.model('Yelp', yelpSchema);
 module.exports = Yelp;
