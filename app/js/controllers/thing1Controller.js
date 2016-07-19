@@ -1,9 +1,9 @@
-function thing1Controller($scope, $state, $log, $uibModal, thingService) {
+function thing1Controller($scope, $state, $log, $uibModal, Yelp) {
   console.log('thing1Ctrl');
   const vm = $scope;
-  console.log('currentUser: ', vm.currentUser);
+
   function renderThings() {
-    thingService.getThings(vm.currentUser)
+    Yelp.getFavorites(vm.currentUser)
     .then((res) => {
       vm.things = res.data;
     })
@@ -11,37 +11,37 @@ function thing1Controller($scope, $state, $log, $uibModal, thingService) {
       vm.things = err;
     });
   }
-  function addThing(thing) {
-    thingService.addThing(thing)
-    .then((res) => {
-      vm.things = res.data;
-    })
-    .catch((err) => console.error(err));
-  }
+  // function addThing(thing) {
+  //   Yelp.addThing(thing)
+  //   .then((res) => {
+  //     vm.things = res.data;
+  //   })
+  //   .catch((err) => console.error(err));
+  // }
   function editThing(thing) {
-    thingService.editThing(thing, vm.currentUser._id)
+    Yelp.editThing(thing, vm.currentUser._id)
     .then(() => renderThings())
     .catch((err) => console.error(err));
   }
   function deleteThing(thing) {
-    thingService.removeThing(thing, vm.currentUser._id)
+    Yelp.removeThing(thing, vm.currentUser._id)
     .then(() => renderThings())
     .catch((err) => console.error(err));
   }
   renderThings();
-  // ////////////////////////////////////////////////////////////////////
-  // Add Thing
-  vm.addThing = () => {
-    const modalInstance = $uibModal.open({
-      keyboard: true,
-      animation: true,
-      templateUrl: '/uib/template/modal/addThingModal.html',
-      controller: 'addThingModalController',
-      size: 'lg',
-    });
-    modalInstance.result.then(photo => addThing(photo),
-    () => $log.info(`Modal dismissed at:  + ${new Date()}`));
-  };
+  // // ////////////////////////////////////////////////////////////////////
+  // // Add Thing
+  // vm.addThing = () => {
+  //   const modalInstance = $uibModal.open({
+  //     keyboard: true,
+  //     animation: true,
+  //     templateUrl: '/uib/template/modal/addThingModal.html',
+  //     controller: 'addThingModalController',
+  //     size: 'lg',
+  //   });
+  //   modalInstance.result.then(photo => addThing(photo),
+  //   () => $log.info(`Modal dismissed at:  + ${new Date()}`));
+  // };
 
   // //////////////////////////////////////////////////////////////////////
   // Edit Thing

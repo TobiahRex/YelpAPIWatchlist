@@ -2,6 +2,7 @@ require('dotenv').load();
 const yelp = require('node-yelp-api');
 const merge = require('merge');
 const mongoose = require('mongoose');
+const User = require('./user');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const options = {
@@ -30,25 +31,25 @@ yelpSchema.statics.search = (input, cb) => {
   });
 };
 
-yelpSchema.statics.favorite = (reqObj, userId, cb) => {
+yelpSchema.statics.addFavorite = (reqObj, userId, cb) => {
   if (!reqObj.term || !reqObj.location || !userId) {
     return cb({ Error: 'Required inputs are not present.' });
   }
-  return Yelp.find(reqObj.id, (err1, dbYelp) => {
-    User.find(userId, (err2, dbUser) => {
+  return Yelp.find({ yelpId: reqObj.id }, (err1, dbYelp) => {
+    User.findById(userId, (err2, dbUser) => {
       if (err1 || err2) return cb(err1 || err2);
-      if (dbYelp) {
-        dbYelp.fans.push(userId);
-        dbUser.Favorites.push(dbYelp._id);
-        dbYelp.save((err3, savedYelp) => {
+      if (dbYelp.length !== 0) {
+        dbYelp[0].fans.push(userId);
+        dbUser.Favorites.push(dbYelp[0]._id);
+        dbYelp[0].save((err3, savedYelp) => {
           dbUser.save((err4, savedUser) => {
             if (err3 || err4) return cb(err3 || err4);
             return cb(null, { savedUser, savedYelp });
           });
         });
-      } else if (!dbYelp) {
+      } else {
         const newYelp = new Yelp({
-          yelpId: reqObj.id,
+          yelpId: reqObj.yelpId,
           term: reqObj.term,
           location: reqObj.location,
         });

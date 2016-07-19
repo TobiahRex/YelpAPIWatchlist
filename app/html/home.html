@@ -1,17 +1,54 @@
-<div class="container">
-  <h1>
-    Yelp Search
-  </h1>
+<div class="well container">
+  <h3 class='text-center'>// Yelp Search</h3>
   <hr>
-  <pre>
-    {{ allTheStuff | json }}
-  </pre>
+  <div class="form-inline text-center">
+    <label for="yelp-term" class='control-label'>Term</label>
+    <input ng-model='term' type="text" class="form-control" id='yelp-term' placeholder="food">
+    &nbsp &nbsp
+    <label for="yelp-location" class='control-label'>Location</label>
+    <input ng-model='location' type="text" class="form-control" id='yelp-location' placeholder="Santa Fe">
+    <button ng-click='searchYelp(term, location)' class="btn btn-info" type="button">Search</button>
+  </div>
+  <br>
+  <div class="container-fluid home-jumbo">
+    <br>
+    <div class="col-xs-12" ng-show='results'>
+      <div ng-repeat='business in results.businesses track by $index' class="template posts-body col-xs-10 col-xs-offset-1 row fadeIn animated panel panel-default">
 
-  <!-- <div class="modal-buttons same-width clearfix">
-  <button type="button" class="btn btn-success" ng-click="showSuccessMsg()">Success Notification</button>
-  <button type="button" class="btn btn-info" ng-click="showInfoMsg()">Info Notification</button>
-  <button type="button" class="btn btn-warning" ng-click="showWarningMsg()">Warning Notification</button>
-  <button type="button" class="btn btn-danger" ng-click="showErrorMsg()">Danger Notification</button>
-</div> -->
+        <div class="message-header panel-heading row">
+          <p class="panel-title"><span class="template-author-name text-success">Name:</span><span style='color: white' class="pull-right">{{business.name}}</span></p>
+          <p class="panel-title"><span class="template-author-name text-success">Phone:</span><span class="text-primary pull-right">{{business.display_phone}}</span></p>
+          <p class="panel-title"><span class="template-author-name text-success">Rating | Reviews:</span><span class="text-primary pull-right"><img ng-src='{{business.rating_img_url}}'/> | {{business.review_count}}</span></p>
+          <p class="panel-title"><span class="template-author-name text-success pull-right"><a ng-href='{{business.url}}'><u class='text-warning'><small>Website</small></u></a></p>
+        </div>
 
+        <div class="form-inline hidden edit-row">
+          <div class="panel-body form-group col-xs-12">
+            <div class="row">
+              <input type='text' class="template-edit-message text-warning form-control lead" value="Edit This Message">
+              <button class="cancel-btn btn btn-danger pull-right">Cancel</button>
+              <button class="save-btn btn btn-success pull-right">Save</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row post-row">
+          <fieldset>
+            <div class="panel-body">
+              <img ng-src='{{business.snippet_image_url}}' class="pull-left">
+              <img class='pull-right' ng-src='{{business.image_url}}'/>
+              <p class="template-post-message text-primary lead col-xs-8">Reviews: <small class="text-right text-warning">{{business.snippet_text}}</small></p>
+              <p class="template-post-message text-primary lead col-xs-8">Location: <br>
+                <small class='text-muted'>City:</small> <small class="text-right text-success">{{business.location.city}}, {{business.location.state_code}}</small><br>
+                <small class='text-muted'>Address:</small> <small class="text-right text-success">{{business.location.address[0]}}</small><br>
+              </p>
+              <p class="template-post-message text-primary lead col-xs-8">Open: <small class="text-right text-info">{{business.is_closed}}</small></p>
+              <p class="template-post-message text-primary lead pull-right"><button ng-click='addToFavorite(business)' type="button" class='btn btn-primary'>Add To Favorites</button></p>
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>
