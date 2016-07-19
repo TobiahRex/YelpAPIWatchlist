@@ -1,9 +1,17 @@
 require('dotenv').load();
 const yelp = require('node-yelp-api');
+const NpmYelp = require('yelp');
 const merge = require('merge');
 const mongoose = require('mongoose');
 const User = require('./user');
 const ObjectId = mongoose.Schema.Types.ObjectId;
+
+const yelp2 = new NpmYelp({
+  consumer_key: process.env.YELP_CONSUMER_KEY,
+  consumer_secret: process.env.YELP_CONSUMER_SECRET,
+  token: process.env.YELP_TOKEN,
+  token_secret: process.env.YELP_TOKEN_SECRET,
+});
 
 const options = {
   consumer_key: process.env.YELP_CONSUMER_KEY,
@@ -11,7 +19,6 @@ const options = {
   token: process.env.YELP_TOKEN,
   token_secret: process.env.YELP_TOKEN_SECRET,
 };
-
 
 const yelpSchema = new mongoose.Schema({
   yelpId: { type: String },
@@ -30,13 +37,11 @@ yelpSchema.statics.search = (input, cb) => {
     return cb(null, JSON.parse(data.body, null, 2));
   });
 };
+
 yelpSchema.statics.getBusinessDetails = (yelpId, cb) => {
-  const parameters = {
-    term: yelpId,
-  };
-  yelp.business(merge(options, parameters), (err, data) => {
+  yelp2.business(yelpId, (err, data) => {
     if (err) return cb(err);
-    return cb(null, JSON.parse(data.body, null, 2));
+    return cb(null, data);
   });
 };
 

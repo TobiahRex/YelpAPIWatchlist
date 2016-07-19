@@ -1,47 +1,56 @@
 
 <div class="modal-header">
-
-  <h3 class="text-center modal-title"> <i class="text-info fa fa-2x fa-edit"></i> <br> Edit Tenant</h3>
+  <h3 class="text-center modal-title"> <img style='width: 200px;' src='http://s3-media2.fl.yelpcdn.com/assets/srv0/www_pages/95212dafe621/assets/img/brand_guidelines/yelp-2c.png'/><br>{{business.name}}</h3>
 </div>
 <div class="modal-body">
 
-  <form>
-    <form class="form-inline">
-      <div class="form-group">
-        <label  class='text-info' for="first-name">First Name</label>
-        <input ng-model='tenant.Name.first' type="text" class="form-control" id="first-name" placeholder='{{tenant.Name.first}}'>
-        <label class='text-info'  for="last-name">Last Name</label>
-        <input ng-model='tenant.lastname' type="text" class="form-control" id="last-name" placeholder='{{tenant.Name.last}}'>
+  <div class="col-xs-10 col-xs-offset-1">
+    <div class="posts-body fadeIn animated">
+      <div class="pull-left message-header row">
+        <p>
+          <span class="text-success"></span><span class="text-primary pull-right">{{business.display_phone}}</span>
+        </p>
+        <p>
+          <span class="text-success"></span><span class="text-primary pull-right"><img ng-src='{{business.rating_img_url}}'/> | {{business.review_count}}</span>
+        </p>
+        <p>
+          <span class="text-success pull-right">
+            <a ng-href='{{business.url}}'>
+              <u class='text-warning'><small>Website</small>
+              </u>
+            </a>
+          </p>
+        </span>
       </div>
-      <div class="form-group">
-        <label class='text-info' for="email">Email</label>
-        <input ng-model='tenant.email' type="email" class="form-control" id="email" placeholder="{{tenant.Email}}">
+
+      <div class='pull-right'>
+        <img ng-src='{{business.image_url}}'/>
+        <p class="text-primary lead col-xs-8">Location: <br>
+          <small class='text-muted'>City:</small> <small class="text-right text-success">{{business.location.city}}, {{business.location.state_code}}</small><br>
+          <small class='text-muted'>Address:</small> <small class="text-right text-success">{{business.location.address[0]}}</small><br>
+        </p>
+        <p class="text-primary lead col-xs-8">Open: <small class="text-right text-info">{{business.is_closed}}</small></p>
       </div>
-      <div class="form-group">
-        <label class="text-info control-label" for="phone">Phone Number</label>
-        <input ng-model='tenant.phone' type="tel" name='usrtel' class="form-control form-control-success" id="phone" placeholder="{{tenant.PhoneNumber}}">
+      <hr>
+      <div>
+        <p class="text-primary lead col-xs-8">
+          <ul class="list-unstyled pull-left">
+            <h5 class='text-left'>Reviews: </h5>
+            <li ng-repeat='rev in business.reviews track by $index'>
+              <img class='pull-left' ng-src='{{rev.user.image_url}}'>
+              <p class="text-left text-danger">Date: {{rev.time_created | date}}</p>
+              <p class="lead text-left text-primary"> {{rev.user.name}}</p>
+              <p class="text-left text-info"> {{rev.excerpt}}</p>
+              <img ng-src='{{rev.rating_image_url}}'/>
+            </li>
+            <hr>
+            <button class="pull-right btn btn-warning" type="submit" ng-click='cancel()'>Close</button>
+          </ul>
+        </p>
       </div>
-      <div class="form-group">
-        <label class="text-info control-label" for="phone">Address</label>
-        <input ng-model='tenant.Address' type="tel" name='usrtel' class="form-control form-control-success" id="phone" placeholder="{{tenant.Address}}">
-      </div>
-    </form>
-    <!-- <ul>
-    <li ng-repeat="item in items">
-    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-  </li>
-</ul>
-Selected: <b>{{ selected.item }}</b> -->
-</div>
-<div class="modal-footer">
-  <div class="row">
-    <div class="col-xs-7">
-      <p class="pull-left"> <span class="text-info">Name</span> & <span class="text-info">Email</span> fields are <span class="text-danger">REQUIRED.</span></p>
-    </div>
-    <div class="col-xs-5">
-      <button class="btn btn-info" type="submit" ng-click='submitChanges()'>Submit Changes</button>
-      <button class="btn btn-warning" type="submit" ng-click='cancel()'>Cancel</button>
+
     </div>
   </div>
 </div>
-</form>
+<div class="modal-footer">
+</div>
