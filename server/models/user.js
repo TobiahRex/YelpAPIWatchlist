@@ -6,6 +6,7 @@ const BCRYPT = require('bcryptjs');
 const JWT_SECRET = process.env.JWT_SECRET;
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const Mail = require('./mail');
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 const userSchema = new mongoose.Schema({
   Admin: { type: Boolean, default: false },
@@ -41,11 +42,12 @@ const userSchema = new mongoose.Schema({
   ChatId: { type: ObjectId, ref: 'Chat' },
   Favorites: [{ type: ObjectId, ref: 'Yelp' }],
 });
-
+userSchema.plugin(deepPopulate);
 // CRUD
 userSchema.statics.getUser = (userId, cb) => {
+  console.log('hi');
   if (!userId) return cb({ ERROR: `Did Not Provide ID; ${userId}` });
-  return User.findById(userId, (err, dbUser) => {
+  User.findById({ _id: userId }).deepPopulate('Favorites').exec((err, dbUser) => {
     if (err) return cb(err);
     return cb(null, dbUser);
   });

@@ -79,3 +79,11 @@ i.fa.fa-5x.text-primary:hover {
   font-size: 16px !important;
   color: #E7E7E7 !important;
 }
+
+#favorite-business {
+  cursor: pointer;
+}
+#favorite-business:hover {
+  cursor: pointer;
+  color: #FFFFFF;
+}

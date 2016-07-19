@@ -37,6 +37,7 @@
     "main-bower-files": "^2.13.1",
     "moment": "^2.13.0",
     "mongoose": "^4.4.17",
+    "mongoose-deep-populate": "^3.0.0",
     "morgan": "^1.7.0",
     "node-yelp-api": "^1.1.0",
     "nonce": "^1.0.4",

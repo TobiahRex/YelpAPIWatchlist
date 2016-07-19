@@ -30,6 +30,15 @@ yelpSchema.statics.search = (input, cb) => {
     return cb(null, JSON.parse(data.body, null, 2));
   });
 };
+yelpSchema.statics.getBusinessDetails = (yelpId, cb) => {
+  const parameters = {
+    term: yelpId,
+  };
+  yelp.business(merge(options, parameters), (err, data) => {
+    if (err) return cb(err);
+    return cb(null, JSON.parse(data.body, null, 2));
+  });
+};
 
 yelpSchema.statics.addFavorite = (reqObj, userId, cb) => {
   if (!reqObj.term || !reqObj.location || !userId) {

@@ -1,7 +1,7 @@
-function editThing($uibModalInstance) {
+function editThing($scope, $uibModalInstance, yelpBusiness) {
   console.log('editThingModalCtrl');
-  const vm = this;
-  vm.thing = editThing.thing;
+  const vm = $scope;
+  vm.thing = yelpBusiness;
   console.log('vm.thing: ', vm.thing);
   vm.submitChanges = () => {
     const editedThing = vm.thing;

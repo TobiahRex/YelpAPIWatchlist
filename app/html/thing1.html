@@ -1,26 +1,30 @@
 <div class="animated fadeIn">
   <form class="form-inline">
     <div class="form-group">
-      <p class="lead">Things: Thing 1</p>
+      <p class="lead">Yelp: Favorites</p>
     </div>
-    <button ng-click='addThing()' class="btn btn-success pull-right text-"><i class="fa fa-plus-circle"></i>&nbsp Add</button>
+    <!-- <button ng-click='addThing()' class="btn btn-success pull-right text-"><i class="fa fa-plus-circle"></i>&nbsp Add</button> -->
   </form>
   <table class="table table-striped table-hover ">
     <thead>
       <tr>
         <th class='text-center'>#</th>
-        <th class='text-center'>Thing Name</th>
-        <th class='text-center'>Other Thing</th>
-        <th class='text-center'>Edit | Delete</th>
+        <th class='text-center'>Yelp Id</th>
+        <th class='text-center'>Location</th>
+        <th class='text-center'>Search Term</th>
+        <th class='text-center'>Details</th>
+        <th class='text-center'>Remove</th>
       </tr>
     </thead>
     <tbody>
-      <tr class='active' ng-repeat="thing in things track by $index">
+      <tr class='active' ng-repeat="favorite in favorites track by $index">
         <td class='text-center text-primary'>{{$index + 1}}</td>
-        <td class='text-center text-primary'>{{thing.name}}</td>
-        <td class='text-center text-success' >{{thing.photos}}</td>
+        <td class='text-center text-primary'><p>{{favorite.yelpId}}</p></td>
+        <td class='text-center text-primary'><p>{{favorite.location}}</p></td>
+        <td class='text-center text-primary'><p>{{favorite.term}}</p></td>
+        <td class='text-center text-primary'><p><a class='text-success' id='favorite-business' ng-click='businessDetails(favorite.yelpId)'>Details</a></p></td>
         <td class='text-center'>
-          <button ng-click='deleteThing({thing})' class="btn btn-danger btn-xs"> <i class="fa fa-trash"></i> <small>Delete</small></button> <button ng-click='editThing({thing})' class="btn btn-info btn-xs"> <i class="fa fa-edit"></i> <small>Edit</small></button>
+          <button ng-click='deleteThing({favorite})' class="btn btn-danger btn-xs"> <i class="fa fa-trash"></i> <small>Delete</small></button>
         </td>
       </tr>
     </tbody>

@@ -1,14 +1,25 @@
-function thing1Controller($scope, $state, $log, $uibModal, Yelp) {
+function thing1Controller($scope, $state, $log, $uibModal, Yelp, Auth, toastr) {
   console.log('thing1Ctrl');
   const vm = $scope;
+
+  function getFavorites() {
+    Auth.getUser(vm.currentUser._id)
+    .then((res) => {
+      vm.favorites = res.data.Favorites;
+    })
+    .catch((err) => {
+      vm.favorites = err;
+    });
+  }
+  getFavorites();
 
   function renderThings() {
     Yelp.getFavorites(vm.currentUser)
     .then((res) => {
-      vm.things = res.data;
+      vm.favorites = res.data;
     })
     .catch((err) => {
-      vm.things = err;
+      vm.favorites = err;
     });
   }
   // function addThing(thing) {
@@ -44,14 +55,24 @@ function thing1Controller($scope, $state, $log, $uibModal, Yelp) {
   // };
 
   // //////////////////////////////////////////////////////////////////////
-  // Edit Thing
-  vm.editThing = thing2Edit => {
+  // Show Business Details
+  vm.businessDetails = yelpId => {
     const modalInstance = $uibModal.open({
       animation: true,
-      templateUrl: '/uib/template/modal/editThingModal.html',
-      controller: 'editThingModalController',
+      templateUrl: '/uib/template/modal/editThing1.html',
+      controller: 'editThing1Controller',
       size: 'lg',
-      resolve: { editThing: () => thing2Edit },
+      resolve: {
+        yelpBusiness($q) {
+          return Yelp.getBusinessDetails(yelpId)
+          .then((res) => $q.resolve(res.data))
+          .catch((err) => {
+            $q.reject(err);
+            toastr.error('Could not get Details.', 'Error');
+            $state.go('profile.thing1Controller');
+          });
+        },
+      },
     });
     modalInstance.result.then((thing) => editThing(thing),
     () => $log.info(`Modal dismissed at:  + ${new Date()}`));
