@@ -38,7 +38,8 @@ function home($scope, Yelp, toastr) {
   };
 
   vm.addToFavorite = (business) => {
-    // vm.currentUser.Favorites.push(business.id);
+    vm.isFavorites.push(business.id);
+    console.log('vm.isFavorites: ', vm.isFavorites);
     const reqObj = {
       yelpId: business.id,
       term: vm.activeTerm,
