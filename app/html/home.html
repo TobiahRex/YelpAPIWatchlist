@@ -18,8 +18,10 @@
         <div class="message-header panel-heading row">
           <p class="panel-title"><span class="template-author-name text-success">Name:</span><span style='color: white' class="pull-right">{{business.name}}</span></p>
           <p class="panel-title"><span class="template-author-name text-success">Phone:</span><span class="text-primary pull-right">{{business.display_phone}}</span></p>
-          <p class="panel-title"><span class="template-author-name text-success">Rating | Reviews:</span><span class="text-primary pull-right"><img ng-src='{{business.rating_img_url}}'/> | {{business.review_count}}</span></p>
-          <p class="panel-title"><span class="template-author-name text-success pull-right"><a ng-href='{{business.url}}'><u class='text-warning'><small>Website</small></u></a></p>
+          <p class="panel-title"><span class="template-author-name text-success">Rating | Reviews:</span><span class="text-primary pull-right"><img ng-src='{{business.rating_img_url}}'/> {{business.review_count}} Reviews</span></p>
+          <p class="panel-title"><span class="template-author-name text-success pull-right"><a ng-href='{{business.url}}'><u class='text-warning'><small>Website</small></u></a></span></p>
+          <p class="panel-title"><span class="template-author-name text-success">Favorited by: </span><span class="text-primary">{{business.fans || 0}} user(s)</span></p>
+
         </div>
 
         <div class="form-inline hidden edit-row">
@@ -43,7 +45,8 @@
                 <small class='text-muted'>Address:</small> <small class="text-right text-success">{{business.location.address[0]}}</small><br>
               </p>
               <p class="template-post-message text-primary lead col-xs-8">Open: <small class="text-right text-info">{{business.is_closed}}</small></p>
-              <p class="template-post-message text-primary lead pull-right"><button ng-click='addToFavorite(business)' type="button" class='btn btn-primary'>Add To Favorites</button></p>
+              <p ng-hide='isFavorites[{{business.id}}] === business.id' class="template-post-message text-primary lead pull-right"><button ng-click='addToFavorite(business)' type="button" class='btn btn-primary'>Add To Favorites</button></p>
+              <p ng-show='isFavorites[{{business.id}}] === business.id' class="template-post-message text-primary lead pull-right"><button ng-click='addToFavorite(business)' type="button" class='btn btn-info'>Saved <i style='color: yellow' class="fa fa-star"></i></button></p>
             </div>
           </fieldset>
         </div>

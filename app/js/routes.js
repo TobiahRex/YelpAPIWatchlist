@@ -2,6 +2,11 @@ function stateProvider($stateProvider, $urlRouterProvider, $authProvider, toastr
   $authProvider.loginUrl = '/api/users/login';
   $authProvider.signupUrl = '/api/users/register';
 
+  $authProvider.facebook({
+    clientId: '1569396630032936',
+    url: '/api/oauth/facebook',
+  });
+
   $stateProvider
   .state('splash', {
     url: '/',
@@ -34,7 +39,7 @@ function stateProvider($stateProvider, $urlRouterProvider, $authProvider, toastr
     url: '/login',
     templateUrl: 'html/sign_in/login.html',
     controller: 'loginController',
-    controllerAs: 'login'
+    controllerAs: 'login',
   })
   .state('logout', {
     url: '/logout',
@@ -92,7 +97,7 @@ function stateProvider($stateProvider, $urlRouterProvider, $authProvider, toastr
   .state('profile.account', {
     url: '/account',
     templateUrl: 'html/account.html',
-    controller: 'accountController'
+    controller: 'accountController',
   });
 
   $urlRouterProvider.otherwise('/');

@@ -46,19 +46,20 @@ yelpSchema.statics.getBusinessDetails = (yelpId, cb) => {
 };
 
 yelpSchema.statics.updateFavorites = (favorite, UserId, cb) => {
+  console.log('favorite: ', favorite, 'userId: ', UserId);
   Yelp.findById(favorite, (err1, dbYelp) => {
     User.findById(UserId, (err2, dbUser) => {
       if (err1 || err2) return cb(err1 || err2);
       dbUser.Favorites.forEach(favorite => {
-        console.log(dbYelp._id === favorite);
-        if (dbYelp._id === favorite) {
+
+        if (dbYelp._id.toString() === favorite.toString()) {
           dbUser.Favorites.splice(dbUser.Favorites.indexOf(favorite));
           dbYelp.fans.splice(dbYelp.fans.indexOf(dbUser._id));
           dbUser.save((err3, savedUser) => {
             dbYelp.save((err4, savedYelp) => {
               if (err3 || err4) return cb(err3 || err4);
-              return cb(null, savedUser);
-            })
+              return cb(null, { savedUser, savedYelp });
+            });
           });
         } else {
           return cb({ Error: 'Did not find a database match.' });
@@ -69,7 +70,8 @@ yelpSchema.statics.updateFavorites = (favorite, UserId, cb) => {
 };
 
 yelpSchema.statics.addFavorite = (reqObj, userId, cb) => {
-  if (!reqObj.term || !reqObj.location || !userId) {
+  console.log('reqObj: ', reqObj);
+  if (!reqObj.location || !userId) {
     return cb({ Error: 'Required inputs are not present.' });
   }
   return Yelp.find({ yelpId: reqObj.id }, (err1, dbYelp) => {
@@ -87,13 +89,17 @@ yelpSchema.statics.addFavorite = (reqObj, userId, cb) => {
       } else {
         const newYelp = new Yelp({
           yelpId: reqObj.yelpId,
-          term: reqObj.term,
+          term: reqObj.term || '',
           location: reqObj.location,
         });
         Yelp.create(newYelp, (err, savedYelp) => {
           if (err) return cb(err);
+          const newFavorite = {
+            _id: savedYelp._id,
+            yelpId: savedYelp.yelpId,
+          };
           savedYelp.fans.push(dbUser._id);
-          dbUser.Favorites.push(savedYelp._id);
+          dbUser.Favorites.push(newFavorite);
           savedYelp.save((err5, savedYelp2) => {
             dbUser.save((err6, savedUser) => {
               if (err5 || err6) return cb(err5 || err6);

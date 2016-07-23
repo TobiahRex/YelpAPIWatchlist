@@ -40,7 +40,10 @@ const userSchema = new mongoose.Schema({
   Likes: [{ type: ObjectId, ref: 'Item' }],
   AccountId: { type: ObjectId, ref: 'Account' },
   ChatId: { type: ObjectId, ref: 'Chat' },
-  Favorites: [{ type: ObjectId, ref: 'Yelp' }],
+  Favorites: [{
+    _id: { type: ObjectId },
+    yelpId: { type: String },
+  }],
 });
 userSchema.plugin(deepPopulate);
 // CRUD

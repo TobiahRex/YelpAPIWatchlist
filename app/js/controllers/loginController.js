@@ -1,6 +1,6 @@
 function loginController($scope, $state, $auth) {
   console.log('loginCtrl');
-  const vm = this;
+  const vm = $scope;
   vm.authenticate = authenticate;
   vm.loginUser = loginUser;
 

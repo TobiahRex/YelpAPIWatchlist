@@ -1,4 +1,6 @@
 function yelpService($http) {
+  this.getDb = () => $http.get('/api/yelp/');
+
   this.search = (term, location) => $http.post('/api/yelp/search', { term, location });
 
   this.addToFavorites = (reqObj, userId) => $http.post(`/api/yelp/favorite/${userId}`, reqObj);
