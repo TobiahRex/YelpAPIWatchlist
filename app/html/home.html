@@ -8,11 +8,19 @@
     <label for="yelp-location" class='control-label'>Location</label>
     <input ng-model='location' type="text" class="form-control" id='yelp-location' placeholder="Santa Fe">
     <button ng-click='searchYelp(term, location)' class="btn btn-info" type="button">Search</button>
+    <br>
+    <ul id='paginate-top' class="pagination pagination-lg" ng-if='results'>
+      <li class="disabled"><a href="#">&laquo;</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">&raquo;</a></li>
+    </ul>
   </div>
   <br>
-  <div class="container-fluid home-jumbo">
+  <div class="container-fluid home-jumbo" ng-if='results'>
     <br>
-    <div class="col-xs-12" ng-show='results'>
+    <div class="col-xs-12">
       <div ng-repeat='business in results.businesses track by $index' class="template posts-body col-xs-10 col-xs-offset-1 row fadeIn animated panel panel-default">
 
         <div class="message-header panel-heading row">

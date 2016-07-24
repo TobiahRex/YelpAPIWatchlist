@@ -95,3 +95,13 @@ i.fa.fa-5x.text-primary:hover {
 #isFavoriteButton {
   margin-top: 40px;
 }
+
+#paginate-top {
+  margin-top: 50px;
+  margin-bottom: 0px;
+}
+
+#paginate-bottom {
+  margin-top: 50px;
+  margin-bottom: 0px;
+}

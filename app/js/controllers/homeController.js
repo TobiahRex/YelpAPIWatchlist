@@ -35,10 +35,11 @@ function homeController($scope, Yelp, toastr) {
     });
   };
 
-  function paginate(pageNumber, allData) => {
-    allData.filter((item, i, allItems) => {
-      pageNumber * 10
-    })
+  function paginate(pageNumber, allData) {
+    const pageArray = allData.map((item, i, allItems) => {
+      return allItems.slice(pageNumber*10, 10);
+    });
+    console.log('pageArray', pageArray);
   }
 
   vm.nextPage = pageNumber => {
