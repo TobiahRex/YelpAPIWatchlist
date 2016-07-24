@@ -1,8 +1,9 @@
-function home($scope, Yelp, toastr) {
+function homeController($scope, Yelp, toastr) {
   console.log('homeCtrl');
   const vm = $scope;
   vm.activeTerm = '';
   vm.activeLocation = '';
+  vm.currentPage = 1;
   let dbYelp = [];
   function getYelpFaves() {
     return Yelp.getDb()
@@ -18,14 +19,12 @@ function home($scope, Yelp, toastr) {
     vm.activeLocation = location;
     Yelp.search(term, location)
     .then((res) => {
+      console.log('res.data: ', res.data);
       res.data.businesses.forEach(business => {
         dbYelp.map(dbBusiness => {
           if (business.id === dbBusiness.yelpId) {
             business.fans = dbBusiness.fans.length;
             vm.results = res.data;
-          } else {
-            const error = new Error('Did not find any matches');
-            throw error;
           }
         });
       });
@@ -36,6 +35,16 @@ function home($scope, Yelp, toastr) {
     });
   };
 
+  function paginate(pageNumber, allData) => {
+    allData.filter((item, i, allItems) => {
+      pageNumber * 10
+    })
+  }
+
+  vm.nextPage = pageNumber => {
+    console.log('pageNumber: ', pageNumber);
+  };
+
   vm.addToFavorite = (business) => {
     vm.isFavorites.push(business.id);
     const reqObj = {
@@ -43,7 +52,6 @@ function home($scope, Yelp, toastr) {
       term: vm.activeTerm,
       location: vm.activeLocation,
     };
-
     Yelp.addToFavorites(reqObj, vm.currentUser._id)
     .then(() => {
       getYelpFaves();
@@ -57,4 +65,4 @@ function home($scope, Yelp, toastr) {
   };
 }
 
-angular.module('fullStackTemplate').controller('homeController', home);
+angular.module('fullStackTemplate').controller('homeController', homeController);

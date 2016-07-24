@@ -87,3 +87,11 @@ i.fa.fa-5x.text-primary:hover {
   cursor: pointer;
   color: #FFFFFF;
 }
+
+#favoriteButton {
+  margin-top: 40px;
+}
+
+#isFavoriteButton {
+  margin-top: 40px;
+}
