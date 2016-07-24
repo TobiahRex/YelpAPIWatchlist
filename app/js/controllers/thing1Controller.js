@@ -18,6 +18,7 @@ function thing1Controller($scope, $state, $log, $uibModal, Yelp, Auth, toastr) {
     console.log('favObj: ', favObj.favorite);
     Yelp.removeFavorite(favObj.favorite, vm.currentUser._id)
     .then((res) => {
+      console.log('res.data on remove: ', res.data);
       toastr.success('Favorite removed.', 'Success');
       getUserDetails();
     })

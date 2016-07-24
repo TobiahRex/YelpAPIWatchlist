@@ -12,6 +12,9 @@ router.post('/favorite/:yelp/remove/:id', (req, res) => Yelp.updateFavorites(req
 router.get('/favorite/business/:yelp_id', (req, res) => {
   Yelp.getBusinessDetails(req.params.yelp_id, res.handle);
 });
+
+
+
 router.post('/search', (req, res) => Yelp.search(req.body, res.handle));
 router.get('/', (req, res) => Yelp.find({}, res.handle));
 router.delete('/', (req, res) => Yelp.remove({}, res.handle));

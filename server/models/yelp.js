@@ -45,25 +45,38 @@ yelpSchema.statics.getBusinessDetails = (yelpId, cb) => {
   });
 };
 
+yelpSchema.statics.nextPage = (input, cb) => {
+  const parameters = {
+    term: input.term,
+    offset: input.offset,
+    location: input.location,
+  };
+  yelp.search(merge(options, parameters), (err, data) => {
+    if (err) return cb(err);
+    return cb(null, JSON.parse(data.body, null, 2));
+  });
+};
+
 yelpSchema.statics.updateFavorites = (favorite, UserId, cb) => {
   console.log('favorite: ', favorite, 'userId: ', UserId);
   Yelp.findById(favorite, (err1, dbYelp) => {
     User.findById(UserId, (err2, dbUser) => {
       if (err1 || err2) return cb(err1 || err2);
       console.log('dbYelp: ', dbYelp);
-      dbYelp.fans.forEach((fan, i) => {
-        if (dbUser._id === fan) {
+      dbYelp.fans.forEach((fan) => {
+        if (dbUser._id.toString() === fan.toString()) {
           console.log('dbYelp.fans: ', dbYelp.fans);
           dbYelp.fans.splice(dbYelp.fans.indexOf(dbUser._id));
           console.log('dbYelp.fans: ', dbYelp.fans);
           dbUser.Favorites.find((favObj, index) => {
-            if (favObj.yelpId === dbYelp.id) {
+            if (favObj.yelpId === dbYelp.yelpId) {
               return dbUser.Favorites.splice(index, 1);
             } return console.error('Did not successfully remove favorite from dbUser.');
           });
 
           dbUser.save((err3, savedUser) => {
             dbYelp.save((err4, savedYelp) => {
+              console.log('err 3 or 4: ', err3, err4);
               if (err3 || err4) return cb(err3 || err4);
               return cb(null, { savedUser, savedYelp });
             });
