@@ -1,7 +1,6 @@
 function home($scope, Yelp, toastr) {
   console.log('homeCtrl');
   const vm = $scope;
-  console.log('currentUser.Favorites: ', vm.currentUser.Favorites);
   vm.activeTerm = '';
   vm.activeLocation = '';
   let dbYelp = [];
@@ -13,7 +12,7 @@ function home($scope, Yelp, toastr) {
   getYelpFaves();
 
   vm.isFavorites = vm.currentUser.Favorites.map(favObj => favObj.yelpId);
-  console.log('vm.isFavorites: ', vm.isFavorites);
+
   vm.searchYelp = (term, location) => {
     vm.activeTerm = term;
     vm.activeLocation = location;
@@ -21,12 +20,12 @@ function home($scope, Yelp, toastr) {
     .then((res) => {
       res.data.businesses.forEach(business => {
         dbYelp.map(dbBusiness => {
-
           if (business.id === dbBusiness.yelpId) {
             business.fans = dbBusiness.fans.length;
             vm.results = res.data;
           } else {
-            console.error('NO matches');
+            const error = new Error('Did not find any matches');
+            throw error;
           }
         });
       });
@@ -39,7 +38,6 @@ function home($scope, Yelp, toastr) {
 
   vm.addToFavorite = (business) => {
     vm.isFavorites.push(business.id);
-    console.log('vm.isFavorites: ', vm.isFavorites);
     const reqObj = {
       yelpId: business.id,
       term: vm.activeTerm,
@@ -47,15 +45,14 @@ function home($scope, Yelp, toastr) {
     };
 
     Yelp.addToFavorites(reqObj, vm.currentUser._id)
-    .then((res) => {
-      console.log('result: ', res.data);
+    .then(() => {
       getYelpFaves();
       vm.searchYelp(vm.activeTerm, vm.activeLocation);
       toastr.success('Added to Favorites', 'Added!');
     })
     .catch((err) => {
-      console.error('error: ', err);
       toastr.error('Something went wrong. Could not Add to your Favorites.', 'Error');
+      throw err;
     });
   };
 }
