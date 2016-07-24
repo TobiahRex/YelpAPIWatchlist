@@ -50,11 +50,18 @@ yelpSchema.statics.updateFavorites = (favorite, UserId, cb) => {
   Yelp.findById(favorite, (err1, dbYelp) => {
     User.findById(UserId, (err2, dbUser) => {
       if (err1 || err2) return cb(err1 || err2);
-      dbUser.Favorites.forEach((favObj, i) => {
-        if (dbYelp.yelpId === favObj.yelpId) {
-          dbUser.Favorites.splice(i);
+      console.log('dbYelp: ', dbYelp);
+      dbYelp.fans.forEach((fan, i) => {
+        if (dbUser._id === fan) {
+          console.log('dbYelp.fans: ', dbYelp.fans);
           dbYelp.fans.splice(dbYelp.fans.indexOf(dbUser._id));
-          if (dbYelp.fans.length === 0) dbYelp.findByIdAndRemove({ _id: dbYelp._id });
+          console.log('dbYelp.fans: ', dbYelp.fans);
+          dbUser.Favorites.find((favObj, index) => {
+            if (favObj.yelpId === dbYelp.id) {
+              return dbUser.Favorites.splice(index, 1);
+            } return console.error('Did not successfully remove favorite from dbUser.');
+          });
+
           dbUser.save((err3, savedUser) => {
             dbYelp.save((err4, savedYelp) => {
               if (err3 || err4) return cb(err3 || err4);

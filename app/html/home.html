@@ -45,8 +45,8 @@
                 <small class='text-muted'>Address:</small> <small class="text-right text-success">{{business.location.address[0]}}</small><br>
               </p>
               <p class="template-post-message text-primary lead col-xs-8">Open: <small class="text-right text-info">{{business.is_closed}}</small></p>
-              <p ng-hide="isFavorites[{{business.id}}] === business.id" class="template-post-message text-primary lead pull-right"><button ng-click='addToFavorite(business)' type="button" class='btn btn-primary'>Add To Favorites</button></p>
-              <p ng-show="isFavorites[{{business.id}}] === business.id" class="template-post-message text-primary lead pull-right"><button  type="button" class='disabled btn btn-info'>Saved <i style='color: yellow' class="fa fa-star"></i></button></p>
+              <p ng-hide="isFavorites.indexOf('{{business.id}}') > -1" class="template-post-message text-primary lead pull-right"><button ng-click='addToFavorite(business)' type="button" class='btn btn-primary'>Add To Favorites</button></p>
+              <p ng-show="isFavorites.indexOf('{{business.id}}') > -1" class="template-post-message text-primary lead pull-right"><button  type="button" class='disabled btn btn-info'>Saved <i style='color: yellow' class="fa fa-star"></i></button></p>
             </div>
           </fieldset>
         </div>
