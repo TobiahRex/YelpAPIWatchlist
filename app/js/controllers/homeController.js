@@ -3,6 +3,7 @@ function homeController($scope, Yelp, toastr) {
   const vm = $scope;
   vm.activeTerm = '';
   vm.activeLocation = '';
+  vm.pages = [];
   vm.currentPage = 1;
   let dbYelp = [];
   function getYelpFaves() {
@@ -36,14 +37,23 @@ function homeController($scope, Yelp, toastr) {
   };
 
   function paginate(pageNumber, allData) {
-    const pageArray = allData.map((item, i, allItems) => {
-      return allItems.slice(pageNumber*10, 10);
-    });
+    const pageArray = allData.map((item, i, allItems) => allItems.slice(pageNumber * 10, 10));
     console.log('pageArray', pageArray);
   }
 
-  vm.nextPage = pageNumber => {
-    console.log('pageNumber: ', pageNumber);
+  vm.getPage = pageNumber => {
+    const pageNum = pageNumber * 10;
+    const nextPageObj = {
+      term: vm.activeTerm,
+      location: vm.activeLocation,
+      offset: pageNum,
+    };
+    Yelp.nextPage(nextPageObj)
+    .then((res) => {
+      console.log('paginate Data: ', res.data);
+      vm.results = res.data;
+    })
+    .catch((err) => console.error(err));
   };
 
   vm.addToFavorite = (business) => {
@@ -63,6 +73,13 @@ function homeController($scope, Yelp, toastr) {
       toastr.error('Something went wrong. Could not Add to your Favorites.', 'Error');
       throw err;
     });
+  };
+
+  vm.repeatTimes = (n) => {
+    console.log('n: ', n);
+    const times = new Array(n);
+    console.log('times: ', times);
+    return times;
   };
 }
 

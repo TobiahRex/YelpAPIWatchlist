@@ -28,6 +28,7 @@ const yelpSchema = new mongoose.Schema({
 });
 
 yelpSchema.statics.search = (input, cb) => {
+  console.log('search input: ', input);
   const parameters = {
     term: input.term,
     location: input.location,
@@ -46,9 +47,10 @@ yelpSchema.statics.getBusinessDetails = (yelpId, cb) => {
 };
 
 yelpSchema.statics.nextPage = (input, cb) => {
+  console.log('nextPage input: ', input);
   const parameters = {
     term: input.term,
-    offset: input.offset,
+    offset: input.offset || 1,
     location: input.location,
   };
   yelp.search(merge(options, parameters), (err, data) => {

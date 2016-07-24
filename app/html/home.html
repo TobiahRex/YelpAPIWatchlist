@@ -10,18 +10,19 @@
     <button ng-click='searchYelp(term, location)' class="btn btn-info" type="button">Search</button>
     <br>
     <ul id='paginate-top' class="pagination pagination-lg" ng-if='results'>
-      <li class="disabled"><a href="#">&laquo;</a></li>
-      <li class="active"><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">&raquo;</a></li>
+      <li class="disabled"><a>&laquo;</a></li>
+      <li ><a ng-click='getPage(0)'>1</a></li>
+      <li ><a ng-click='getPage(1)'>2</a></li>
+      <li ><a ng-click='getPage(2)'>3</a></li>
+      <li ><a ng-click='getPage(3)'>4</a></li>
+      <li><a>&raquo;</a></li>
     </ul>
   </div>
   <br>
   <div class="container-fluid home-jumbo" ng-if='results'>
     <br>
     <div class="col-xs-12">
-      <div ng-repeat='business in results.businesses track by $index' class="template posts-body col-xs-10 col-xs-offset-1 row fadeIn animated panel panel-default">
+      <div ng-repeat='business in results.businesses | limitTo: 10 track by $index' class="template posts-body col-xs-10 col-xs-offset-1 row fadeIn animated panel panel-default">
 
         <div class="message-header panel-heading row">
           <p class="panel-title"><span class="template-author-name">Name:</span><span style='color: white' class="pull-right">{{business.name}}</span></p>
