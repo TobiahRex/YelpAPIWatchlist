@@ -43,7 +43,7 @@
                 <small class="text-right text-muted">{{business.location.address[0]}}</small><br>
               </p>
 
-              <p ng-hide="isFavorites.indexOf('{{business.id}}') > -1" class="template-post-message text-primary lead"><button id='favoriteButton' ng-click='addToFavorite(business)' type="button" class='btn btn-primary'>Add To Favorites <i class="fa fa-plus-circle"></i> </button></p>
+              <p ng-hide="isFavorites.indexOf('{{business.id}}') > -1" class="template-post-message text-primary lead pull-left"><button id='favoriteButton' ng-click='addToFavorite(business)' type="button" class='btn btn-primary'>Add To Favorites <i class="fa fa-plus-circle"></i> </button></p>
               <p ng-show="isFavorites.indexOf('{{business.id}}') > -1" class="template-post-message text-primary lead pull-left"><button id='isFavoriteButton' type="button" class='disabled btn btn-info'>Saved <i style='color: yellow' class="fa fa-star"></i></button></p>
             </div>
           </fieldset>

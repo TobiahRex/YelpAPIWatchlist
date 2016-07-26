@@ -8,6 +8,10 @@ body {
   font-size: 18px;
 }
 
+jumbotron {
+  background-color: #000000 !important;
+}
+
 hr {
   border-color: #0F0F0F
 }
