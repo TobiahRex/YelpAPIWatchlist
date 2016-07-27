@@ -1,4 +1,3 @@
-require('dotenv').load();
 const yelp = require('node-yelp-api');
 const NpmYelp = require('yelp');
 const merge = require('merge');

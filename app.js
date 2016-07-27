@@ -1,9 +1,6 @@
-'use strict';
-
-require('dotenv').load();
+// require('dotenv').load();
 const PORT = process.env.PORT || 3000;
-const MONGO_URL = process.env.MONGODB_URI || "mongodb://localhost/chFinal";
-
+const MONGO_URL = process.env.MONGODB_URI || "mongodb://localhost/yelpApp";
 const express = require('express');
 const router = new express.Router();
 const app = express();
