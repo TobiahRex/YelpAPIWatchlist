@@ -3,7 +3,9 @@ function logoutController($state, Auth, $auth) {
   Auth.logoutUser()
   .then(res => {
     $auth.logout();
-    toastr.info('You have been successfully logged out.', 'Logged out', { iconClass: 'toast-info-toby' });
+    toastr.info('You have been successfully logged out.',
+    'Logged out',
+    { iconClass: 'toast-info-toby' });
     $scope.$emit('loggedOut');
   });
 }

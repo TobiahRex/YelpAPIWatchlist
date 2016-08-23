@@ -5,19 +5,21 @@ function loginController($scope, $state, $auth) {
   vm.loginUser = loginUser;
 
   function loginUser(loginObj) {
-    console.log('loginObj: ', loginObj);
     $auth.login(loginObj)
     .then(dataObj => {
-      if (dataObj.status !== 200) console.log('login failed.', dataObj.data);
-      $scope.$emit('loggedIn');
+      if (dataObj.status !== 200) toastr.error('That username or password is not correct.', 'ERROR');
       $state.go('profile');
+      $scope.$emit('loggedIn');
     })
-    .catch(err => console.log('ERROR: ', err));
+    .catch(err => toastr.error('Could not log you in.', 'ERROR'));
   }
   function authenticate(provider) {
     $auth.authenticate(provider)
-    .then(() => $scope.$emit('loggedIn'))
-    .catch(err => console.error('ERROR: login error', err));
+    .then(() => {
+      $state.go('profile');
+      $scope.$emit('loggedIn');
+    })
+    .catch(() => toastr.error('Could not log you in.', 'ERROR'));
   }
 }
 
