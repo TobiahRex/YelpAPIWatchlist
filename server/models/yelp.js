@@ -33,7 +33,6 @@ yelpSchema.statics.search = (input, cb) => {
   };
   yelp.search(merge(options, parameters), (err, data) => {
     if (err) return cb(err);
-    console.log(JSON.parse(data.body, null, 2))
     return cb(null, JSON.parse(data.body, null, 2));
   });
 };
@@ -58,12 +57,14 @@ yelpSchema.statics.nextPage = (input, cb) => {
 };
 
 yelpSchema.statics.updateFavorites = (favorite, UserId, cb) => {
+
   Yelp.findById(favorite, (err1, dbYelp) => {
     User.findById(UserId, (err2, dbUser) => {
       if (err1 || err2) return cb(err1 || err2);
       dbYelp.fans.forEach((fan) => {
         if (dbUser._id.toString() === fan.toString()) {
           dbYelp.fans.splice(dbYelp.fans.indexOf(dbUser._id));
+
           dbUser.Favorites.find((favObj, index) => {
             if (favObj.yelpId === dbYelp.yelpId) {
               return dbUser.Favorites.splice(index, 1);

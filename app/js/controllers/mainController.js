@@ -25,7 +25,7 @@ function main($state, $scope, $auth, Auth, toastr) {
     })
     .catch((err) => {
       toastr.error(`Could not logout: ${err}`, 'Error');
-      console.error(err);
+      $state.go('login');
     });
   }
   loginCheck();

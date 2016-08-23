@@ -14,13 +14,11 @@ function homeController($scope, Yelp, toastr) {
   getYelpFaves();
 
   vm.isFavorites = vm.currentUser.Favorites.map(favObj => favObj.yelpId);
-  console.log('vm.Favorites: ', vm.currentUser.Favorites);
   vm.searchYelp = (term, location) => {
     vm.activeTerm = term;
     vm.activeLocation = location;
     Yelp.search(term, location)
     .then((res) => {
-      console.log('res.data: ', res.data);
       res.data.businesses.forEach(business => {
         dbYelp.map(dbBusiness => {
           if (business.id === dbBusiness.yelpId) {
@@ -38,7 +36,6 @@ function homeController($scope, Yelp, toastr) {
 
   function paginate(pageNumber, allData) {
     const pageArray = allData.map((item, i, allItems) => allItems.slice(pageNumber * 10, 10));
-    console.log('pageArray', pageArray);
   }
 
   vm.getPage = pageNumber => {
@@ -50,7 +47,6 @@ function homeController($scope, Yelp, toastr) {
     };
     Yelp.nextPage(nextPageObj)
     .then((res) => {
-      console.log('paginate Data: ', res.data);
       vm.results = res.data;
     })
     .catch((err) => console.error(err));
@@ -76,9 +72,7 @@ function homeController($scope, Yelp, toastr) {
   };
 
   vm.repeatTimes = (n) => {
-    console.log('n: ', n);
     const times = new Array(n);
-    console.log('times: ', times);
     return times;
   };
 }

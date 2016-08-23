@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 require('dotenv').load();
+=======
+// require('dotenv').load();
+>>>>>>> ca54f815d7c70d00181569d8d1591c43ae0818e8
 const PORT = process.env.PORT || 3000;
 const MONGO_URL = process.env.MONGODB_URI || "mongodb://localhost/yelpApp";
 const express = require('express');
@@ -28,10 +32,17 @@ app.use((req, res, next) => {
 app.use('/api', require('./server/routes/api'));
 app.use('/', require('./server/routes/index'));
 
+<<<<<<< HEAD
 // io.on('connection', (socket) => {
 //   console.log('Client Connected @', socket.handshake.address);
 //   Socket.init(io, socket);
 // });
+=======
+io.on('connection', (socket) => {
+  console.log('Client Connected @', socket.handshake.address);
+  Socket.init(io, socket);
+});
+>>>>>>> ca54f815d7c70d00181569d8d1591c43ae0818e8
 
 server.listen(PORT, err => {
   console.log(err || `Server @ PORT ${PORT}`);
